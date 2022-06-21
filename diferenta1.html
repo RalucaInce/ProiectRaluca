@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta
+      charset="utf-8"
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <title>Find The Differences</title>
+  </head>
+  <body>
+    <style>
+      .position001 {
+        position: relative;
+      }
+
+      .block001 {
+        position: absolute;
+        top: 28px;
+        left: 83px;
+      }
+
+      .block002 {
+        position: absolute;
+        top: 130px;
+        left: 90px;
+      }
+
+      .block003 {
+        position: absolute;
+        top: 240px;
+        left: 70px;
+      }
+
+      .button001 {
+        background-color: transparent;
+        border: 1px solid transparent;
+        width: 20px;
+        height: 10px;
+      }
+
+      .button002 {
+        background-color: transparent;
+        border: 1px solid transparent;
+        width: 20px;
+        height: 20px;
+      }
+
+      .button003 {
+        background-color: transparent;
+        border: 1px solid transparent;
+        width: 90px;
+        height: 30px;
+      }
+
+      .hide001 {
+        background-color: white;
+        border: 1px solid white;
+      }
+
+      #mark001 {
+        color: yellow;
+        font-size: 125%;
+      }
+
+      .blue001 {
+        background-color: blue;
+        border: none;
+        color: white;
+        padding: 7px 17px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 2px 2px;
+        border-radius: 9px;
+        cursor: pointer;
+        width: 178px;
+      }
+      .button {
+        background-color: #04aa6d;
+        border: none;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+      }
+    </style>
+    <a href="./jocuri.html"><button class="button">Inapoi</button></a>
+    <h1>Gaseste Diferenta</h1>
+    <h2>Obiecte Gasite: <text id="score001">0</text><br /></h2>
+    <h2>Incercari: <text id="attempts001">10</text><br /><br /></h2>
+    <div class="position001">
+      <div id="board001">
+        <button class="hide001" onclick="incorrect001()">
+          <img
+            src="https://www.ikhtabirni.com/uploads/1/6/6/4/16649102/pictures_221.png"
+            height="300"
+          />
+        </button>
+        <div class="block001">
+          <div id="disappear001">
+            <button class="button001" onclick="correct001()"></button>
+          </div>
+        </div>
+        <div class="block002">
+          <div id="disappear002">
+            <button class="button002" onclick="correct002()"></button>
+          </div>
+        </div>
+        <div class="block003">
+          <div id="disappear003">
+            <button class="button003" onclick="correct003()"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <p id="message001"></p>
+    <p id="message002"></p>
+
+    <script>
+      var a = 0;
+      a++;
+      var b = 10;
+      b--;
+
+      function correct001() {
+        disappear001.innerHTML =
+          "<div id=mark001><strong>&#9711</strong></div>";
+        score001.innerHTML = a++;
+        if (a > 3) {
+          message001.innerHTML = "Congratulations. You won.";
+          message002.innerHTML =
+            "<button class=blue001 onclick=repeat001()>Repeat</button>";
+          board001.innerHTML =
+            "<img src=https://www.ikhtabirni.com/uploads/1/6/6/4/16649102/pictures_221.png height=300 />";
+        }
+      }
+
+      function correct002() {
+        disappear002.innerHTML =
+          "<div id=mark001><strong>&#9711</strong></div>";
+        score001.innerHTML = a++;
+        if (a > 3) {
+          message001.innerHTML = "Congratulations. You won.";
+          message002.innerHTML =
+            "<button class=blue001 onclick=repeat001()>Repeat</button>";
+          board001.innerHTML =
+            "<img src=https://www.ikhtabirni.com/uploads/1/6/6/4/16649102/pictures_221.png height=300 />";
+        }
+      }
+
+      function correct003() {
+        disappear003.innerHTML =
+          "<div id=mark001><strong>&#9711</strong></div>";
+        score001.innerHTML = a++;
+        if (a > 3) {
+          message001.innerHTML = "Congratulations. You won.";
+          message002.innerHTML =
+            "<button class=blue001 onclick=repeat001()>Repeat</button>";
+          board001.innerHTML =
+            "<img src=https://www.ikhtabirni.com/uploads/1/6/6/4/16649102/pictures_221.png height=300 />";
+        }
+      }
+
+      function incorrect001() {
+        attempts001.innerHTML = b--;
+        if (b < 0) {
+          message001.innerHTML = "You lost.";
+          message002.innerHTML =
+            "<button class=blue001 onclick=repeat001()>Repeat</button>";
+          attempts001.innerHTML = "0";
+          board001.innerHTML =
+            "<img src=https://www.ikhtabirni.com/uploads/1/6/6/4/16649102/pictures_221.png height=300 />";
+        }
+      }
+
+      function repeat001() {
+        location.reload();
+      }
+    </script>
+  </body>
+</html>

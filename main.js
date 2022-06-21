@@ -35,3 +35,9 @@ window.onbeforeunload = () => {
     }
   }
 
+function correct() {
+  confirm("BRAVO!");
+}
+function gresit() {
+  confirm("GRESIT!");
+}

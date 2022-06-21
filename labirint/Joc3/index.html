@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<a href="../../jocuri.html"><button class="button">Inapoi</button></a>
+	<div class="game">
+		<div class="gameScore">Score: <span>0</span></div>
+		<div class="gameMessage">You Win!</div>
+	</div>
+	<canvas id="canvas" width="750" height="400" style="border: 1px solid #000"></canvas>
+  <div id="hiScore"></div>
+
+	<script>
+		let c = document.getElementById('canvas');
+		let ctx = c.getContext('2d');
+		let tileSize = 50;
+		let moves = 0;
+
+		let map = 	[[0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 2],
+					 [0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1],
+					 [1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0],
+					 [0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0],
+					 [0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0],
+					 [0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1],
+					 [0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1],
+					 [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0]];
+
+		let collBox = [];
+		let mapLength = map[0].length;
+		let mapHeight = map.length;
+		let username = '';
+
+		/* Game Textures*/
+		let brick = new Image();
+		brick.src = 'img/brick.jpg';
+
+		let flag = new Image();
+		flag.src = 'img/flag.jpg';
+
+		let pavement = new Image();
+		pavement.src = 'img/pavement.jpg';
+
+		let user = new Image();
+		user.src = 'img/user.png';
+
+
+		function getPlayerName(){
+			username = prompt("Adauga username-ul tau");
+			console.log(username);
+		}
+
+		function addToHiScore(){
+			localStorage.setItem(username, moves);
+			showHiScore();
+		}
+
+		function showHiScore(){
+			let hiScr = document.getElementById('hiScore');
+			hiScr.style.display = 'block';
+
+			for(i=0; i< localStorage.length; i++){
+				hiScr.innerHTML += localStorage.key(i) + ' ' + localStorage.getItem(localStorage.key(i));		
+				hiScr.innerHTML += '</br>';		
+			}
+		}
+
+
+		function drawMap(m){
+			for(i = 0; i < m.length; i++){
+				collBox.push([]);
+				for(j = 0; j < m[i].length; j++){
+					if(m[i][j] === 1){
+						ctx.beginPath();
+						//ctx.fillStyle = "#000000";
+						//ctx.fillRect(j*tileSize, i*tileSize, tileSize, tileSize);
+						ctx.drawImage(brick, j*tileSize, i*tileSize, tileSize, tileSize);
+					}
+					else if(m[i][j] === 2){
+						ctx.beginPath();
+						//ctx.fillStyle = "#00ff00";
+						//ctx.fillRect(j*tileSize, i*tileSize, tileSize, tileSize);
+						ctx.drawImage(flag, j*tileSize, i*tileSize, tileSize, tileSize);
+					}
+					else{
+						ctx.beginPath();
+						ctx.drawImage(pavement, j*tileSize, i*tileSize, tileSize, tileSize);
+					}
+					collBox[i].push({x: j*tileSize, y: i*tileSize, status: m[i][j] === 1 ? 1 : (m[i][j] === 2 ? 2 : 0)});
+				}
+			}
+		}
+
+		function drawPlayer(x, y){
+			ctx.beginPath();
+			//ctx.fillStyle = "#FF0000";
+			//ctx.fillRect(x, y, tileSize, tileSize);
+			ctx.drawImage(user, x, y, tileSize, tileSize);
+		}
+
+		function move(x, y){
+			ctx.clearRect(0, 0, mapLength*tileSize, mapHeight*tileSize);
+			
+			drawMap(map);
+			drawPlayer(x, y);
+
+			player.x = player.newX;
+			player.y = player.newY;
+
+			moves = moves+1;
+			document.querySelector(".gameScore span").innerHTML = moves;
+		}
+
+		let player = {
+			x: 0,
+			y: 0,
+			newX: 0,
+			newY: 0
+		}
+
+		function checkColl(){
+			for(i=0; i<mapHeight; i++){
+				for(j=0; j<mapLength; j++){
+					let b = collBox[i][j];
+					
+					if(player.newX === b.x && player.newY === b.y){
+						if(b.status === 1){
+							console.log('Hit Rock');
+						}
+						else if(b.status === 2){
+							console.log('WIN');
+							move(player.newX, player.newY);
+							document.querySelector(".gameMessage").style.display = "block";
+							addToHiScore();
+						}
+						else{
+							move(player.newX, player.newY);
+						}
+					}
+					else if(player.newX < 0 || player.newX >= mapLength*tileSize || player.newY < 0 || player.newY >= mapHeight*tileSize){
+						console.log('Hit Wall');
+					}
+				}
+			}
+		}
+
+
+		window.onkeydown = function(e){
+			if(e.keyCode === 37){ player.newX = player.x - tileSize; player.newY = player.y; console.log('STANGA'); }
+			if(e.keyCode === 38){ player.newY = player. y - tileSize;  player.newX = player.x; console.log('SUS'); }
+			if(e.keyCode === 39){ player.newX = player.x + tileSize; player.newY = player.y; console.log('DREAPTA'); }
+			if(e.keyCode === 40){ player.newY = player. y + tileSize;  player.newX = player.x;console.log('JOS'); }
+			checkColl();
+		}
+
+		window.onload = function(){
+			drawMap(map);
+			drawPlayer(0, 0);
+			getPlayerName();
+			//console.log(collBox);
+		} 
+
+	</script>
+</body>
+</html>
