@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="alertOne.css">
+    <title>Document</title>
+</head>
+    <body>
+        <input type="button" value = "Say Hello" onclick="alertOne(`Felicitări!`);" />
+    </body>
+    <script>
+        // Ensure the user's web browser can run
+        // JavaScript before creating the custom
+        // alertOne box
+        if (document.getElementById) {
+            // Swap the native alertOne for the custom
+            // alertOne
+            window.alertOne = function (alertOne_message) {
+                custom_alertOne(alertOne_message);
+            }
+        }
+    
+        function custom_alertOne(alertOne_message) {
+    
+            /* You can utilize the web page address
+             * for the alertOne message by doing the following:
+    
+             const ALERT_TITLE = "The page at " + document.location.href + " says: ";
+             */
+            const ALERT_TITLE = "CORECT!";
+            const ALERT_BUTTON_TEXT = "OK";
+    
+            // Check if there is an HTML element with
+            // an ID of "alertOne_container".If true, abort
+            // the creation of the custom alertOne.
+            let is_alertOne_container_exist = document.getElementById("alertOne_container");
+            if (is_alertOne_container_exist) {
+                return;
+            }
+    
+            // Create a div to serve as the alertOne
+            // container. Afterward, attach it to the body
+            // element.
+            let get_body_element = document.querySelector("body");
+            let div_for_alertOne_container = document.createElement("div");
+            let alertOne_container = get_body_element.appendChild(div_for_alertOne_container);
+    
+            // Add an HTML ID and a class name for the
+            // alertOne container
+            alertOne_container.id = "alertOne_container";
+            alertOne_container.className = "alertOne_container"
+    
+            // Create the div for the alertOne_box and attach
+            // it to the alertOne container.
+            let div_for_alertOne_box = document.createElement("div")
+            let alertOne_box = alertOne_container.appendChild(div_for_alertOne_box);
+            alertOne_box.className = "alertOne_box";
+    
+            // Set the position of the alertOne box using
+            // scrollTop, scrollWidth, and offsetWidth
+            alertOne_box.style.top = document.documentElement.scrollTop + "px";
+            alertOne_box.style.left = (document.documentElement.scrollWidth - alertOne_box.offsetWidth) / 2 + "px";
+    
+            // Create h1 to hold the alertOne title
+            let alertOne_header_tag = document.createElement("h1");
+            let alertOne_title_text = document.createTextNode(ALERT_TITLE)
+            let alertOne_title= alertOne_box.appendChild(alertOne_header_tag);
+            alertOne_title.appendChild(alertOne_title_text);
+    
+            // Create a paragraph element to hold the
+            // alertOne message
+            let alertOne_paragraph_tag = document.createElement("p");
+            let alertOne_message_container = alertOne_box.appendChild(alertOne_paragraph_tag);
+            alertOne_message_container.textContent = alertOne_message;
+    
+            // Create the OK button
+            let ok_button_tag = document.createElement("button");
+            let ok_button_text = document.createTextNode(ALERT_BUTTON_TEXT)
+            let ok_button = alertOne_box.appendChild(ok_button_tag);
+            ok_button.className = "close_btn";
+            ok_button.appendChild(ok_button_text);
+    
+            // Add an event listener that'll close the
+            // custom alertOne
+            ok_button.addEventListener("click", function () {
+                remove_custom_alertOne();
+            }, false);
+        }
+    
+        function remove_custom_alertOne() {
+            let HTML_body = document.querySelector("body");
+            let alertOne_container = document.getElementById("alertOne_container");
+            HTML_body.removeChild(alertOne_container);
+        }
+    </script>
+</html>

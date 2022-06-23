@@ -30,10 +30,10 @@ async function handleSubmit(event) {
 form.addEventListener("submit", handleSubmit)
 
 window.onbeforeunload = () => {
-    for(const form of document.getElementsByTagName('my-form')) {
-      form.reset();
-    }
+  for (const form of document.getElementsByTagName("my-form")) {
+    form.reset();
   }
+};
 
 function correct() {
   confirm("BRAVO!");
